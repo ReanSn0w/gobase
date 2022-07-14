@@ -28,7 +28,7 @@ func Test_SendHTMLMail(t *testing.T) {
 	sendMainTestBase(mail, t)
 }
 
-func sendMainTestBase(email utils.Email, t *testing.T) {
+func sendMainTestBase(mail utils.Email, t *testing.T) {
 	utils.Mailer.SetConfiguration(
 		"smtp.yandex.ru",
 		"465",
