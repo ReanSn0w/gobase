@@ -55,7 +55,7 @@ func Privileges() *PrivilegesStorage {
 
 func newPrivilegesStorage() *PrivilegesStorage {
 	objID, _ := db.PredictableObjectID("privileges")
-	storage := &PrivilegesStorage{ID: objID}
+	storage := &PrivilegesStorage{ID: objID, Rules: map[string]PrivilegeType{}}
 
 	storage.SetGroup("guest", "main", PublicRead)
 	storage.SetGroup("banned", "main", PublicRead, OwnerRead)
