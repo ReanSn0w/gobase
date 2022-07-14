@@ -38,9 +38,8 @@ func (m *mailer) message(from, to mail.Address, message Email) []byte {
 
 	buffer.WriteString(fmt.Sprintf("From: %s\r\n", from.String()))
 	buffer.WriteString(fmt.Sprintf("To: %s\r\n", to.String()))
-	buffer.WriteString(fmt.Sprintf("Subject: %s\r\n\r\n", message.MessageSubject()))
-	buffer.WriteString("MIME-Version: 1.0\r\n")
-	buffer.WriteString(fmt.Sprintf("Content-Type: %s; charset=\"UTF-8\"\r\n", message.MessageContent()))
+	buffer.WriteString(fmt.Sprintf("Subject: %s\r\n", message.MessageSubject()))
+	buffer.WriteString(fmt.Sprintf("MIME-Version: 1.0;\r\nContent-Type: %s; charset=\"UTF-8\"\r\n\r\n", message.MessageType()))
 	buffer.Write(message.MessageContent())
 
 	return buffer.Bytes()
