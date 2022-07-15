@@ -16,14 +16,37 @@ const (
 )
 
 var (
-	userIDCtxKey      = &ctxKey{}
-	userGroupCtxKey   = &ctxKey{}
-	userSessionCtxKey = &ctxKey{}
-
-	ErrUnvalidToken = errors.New("ошибка, токен не валидирован или устарел")
+	ErrUnvalidToken  = errors.New("ошибка, токен не валидирован или устарел")
+	ErrRequestLocked = errors.New("запрос завлокирован так так у пользователя недостаточно полномочий на его выполнение")
 )
 
-type ctxKey struct{}
+// Метод для проверки доступа к действию
+//
+// В случае если у пользователя достаточно полномочий, его запрос перейдет дальше,
+// однако если полномочий недостаточно, запрос будет завершен с кодом 423
+func CheckPrivilegeMiddleware(privileges ...utils.PrivilegeType) func(http.Handler) http.Handler {
+	return CheckModulePrivilegeMiddleware("main", privileges...)
+}
+
+// Метод для проверки доступа к действию по модулю
+//
+// В случае если у пользователя достаточно полномочий, его запрос перейдет дальше,
+// однако если полномочий недостаточно, запрос будет завершен с кодом 423
+func CheckModulePrivilegeMiddleware(module string, privileges ...utils.PrivilegeType) func(http.Handler) http.Handler {
+	return func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			ctx := r.Context()
+			userID := UserIDFromContext(ctx)
+			userGroup := UserGroupFromContext(ctx)
+
+			if utils.Privileges().Check(userID, userGroup, module, privileges...) {
+				h.ServeHTTP(w, r)
+			} else {
+				utils.ResponseError(w, http.StatusLocked, ErrRequestLocked)
+			}
+		})
+	}
+}
 
 // Middleware для авторизации пользователя для сайта
 //
@@ -142,14 +165,6 @@ func checktoken(ctx context.Context, tokenString string) (context.Context, error
 // Установка значений гостя в контекст
 func userguestvalues(ctx context.Context) context.Context {
 	return buildusercontext(ctx, primitive.NilObjectID, "guest", "")
-}
-
-// Обновление контекста для запроса
-func buildusercontext(ctx context.Context, userID primitive.ObjectID, userGroup string, userSession string) context.Context {
-	ctx = context.WithValue(ctx, userIDCtxKey, userID)
-	ctx = context.WithValue(ctx, userGroupCtxKey, userGroup)
-	ctx = context.WithValue(ctx, userSessionCtxKey, userSession)
-	return ctx
 }
 
 // Проверка возможности обновления токена
