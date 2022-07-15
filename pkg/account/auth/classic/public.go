@@ -48,34 +48,35 @@ func NewRegistrationRequest(email string) (string, error) {
 // функция проверяет, что пользователь с данным email еще не зарегистрирован на сайте
 // далее создает новйы профиль для пользователя
 // на выходе возвращает токен для авторизации пользователя и интерфейс ошибки
-func RegisterUser(token string, password string, session secure.Session) (string, error) {
+func RegisterUser(token string, password string, session secure.Session) (primitive.ObjectID, string, error) {
 	claims, err := utils.JWT().Parse(token)
 	if err != nil || claims.Valid() != nil || claims["type"] == registrationTokenType {
-		return "", ErrUnvalidToken
+		return primitive.NilObjectID, "", ErrUnvalidToken
 	}
 
 	email := claims["user_email"].(string)
 	err = emailAvaliable(email)
 	if err != nil {
-		return "", err
+		return primitive.NilObjectID, "", err
 	}
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		return "", err
+		return primitive.NilObjectID, "", err
 	}
 
 	userID, err := account.CreateNewAccount(utils.GenerateRandomString(12, true, false, false), "user", session)
 	if err != nil {
-		return "", err
+		return primitive.NilObjectID, "", err
 	}
 
 	err = saveUserCredentials(userID, email, hash)
 	if err != nil {
-		return "", err
+		return primitive.NilObjectID, "", err
 	}
 
-	return secure.CreateNewUserToken(userID, "user", session.Key)
+	userToken, err := secure.CreateNewUserToken(userID, "user", session.Key)
+	return userID, userToken, err
 }
 
 // Авторизация пользователя
