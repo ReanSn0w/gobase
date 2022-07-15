@@ -75,12 +75,7 @@ func RegisterUser(token string, password string, session secure.Session) (string
 		return "", err
 	}
 
-	return utils.JWT().GenerateToken(jwt.MapClaims{
-		"user_id":    userID.Hex(),
-		"user_group": "user",
-		"session":    session.Key,
-		"iat":        time.Now().Add(time.Hour),
-	})
+	return secure.CreateNewUserToken(userID, "user", session.Key)
 }
 
 // Авторизация пользователя
@@ -96,12 +91,7 @@ func LoginUser(email string, password string, session secure.Session) (string, e
 		return "", ErrAuthentification
 	}
 
-	return utils.JWT().GenerateToken(jwt.MapClaims{
-		"user_id":    auth.ID.Hex(),
-		"user_group": auth.Group,
-		"session":    session.Key,
-		"iat":        time.Now().Add(time.Hour),
-	})
+	return secure.CreateNewUserToken(auth.ID, auth.Group, session.Key)
 }
 
 // Запрос на восстановление пароля

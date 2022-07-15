@@ -2,7 +2,6 @@ package secure
 
 import (
 	"errors"
-	"time"
 
 	"github.com/ReanSn0w/gobase/pkg/utils"
 	"go.mongodb.org/mongo-driver/bson"
@@ -20,9 +19,8 @@ var (
 // Название может быть UserAgent'ом браузера или названием телефона
 func CreateSession(name string) Session {
 	return Session{
-		Name:       name,
-		Key:        utils.GenerateRandomString(24, true, true, false),
-		LastUpdate: time.Now(),
+		Name: name,
+		Key:  utils.GenerateRandomString(24, true, true, false),
 	}
 }
 
