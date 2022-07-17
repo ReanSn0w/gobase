@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	tokenizer *jwtUtility
+	tokenizer *jwtUtility = &jwtUtility{jwt: jwtauth.New("HS256", []byte(Salt()), nil)}
 
 	ErrNoToken      = errors.New("не удалось извлечь JWT токен из запроса")
 	ErrUnvalidToken = errors.New("токен пользователя не является валидным")
