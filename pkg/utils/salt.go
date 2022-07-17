@@ -2,7 +2,6 @@ package utils
 
 import (
 	"math/rand"
-	"os"
 	"time"
 )
 
@@ -14,17 +13,6 @@ const (
 )
 
 var salt string
-
-func init() {
-	s, b := os.LookupEnv(env)
-	if !b {
-		s = generateNewSalt()
-	}
-
-	os.Unsetenv(env)
-
-	salt = s
-}
 
 // Метод возвращает соль для текущей сессии
 func Salt() string {

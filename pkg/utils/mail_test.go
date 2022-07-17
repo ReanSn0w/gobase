@@ -10,7 +10,7 @@ func Test_SendPlainMail(t *testing.T) {
 	mail := utils.NewPlainMail(
 		"Дмитрий Папков",
 		"papkovda@me.com",
-		"Тест отправки сообщения",
+		"Test mail",
 		"Текст сообщения",
 	)
 
