@@ -38,7 +38,7 @@ func NewRegistrationRequest(email string) (string, error) {
 	return utils.JWT().GenerateToken(jwt.MapClaims{
 		"user_email": email,
 		"type":       registrationTokenType,
-		"iat":        time.Now().Add(time.Hour * 24).Unix(),
+		"exp":        time.Now().Add(time.Hour * 24).Unix(),
 	})
 }
 
@@ -108,7 +108,7 @@ func NewPasswordReciveryRequest(email string) (string, error) {
 	return utils.JWT().GenerateToken(jwt.MapClaims{
 		"user_email": email,
 		"type":       passwordRecoveryTokenType,
-		"iat":        time.Now().Add(time.Hour * 24).Unix(),
+		"exp":        time.Now().Add(time.Hour * 24).Unix(),
 	})
 }
 

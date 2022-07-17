@@ -46,7 +46,7 @@ func CreateNewUserToken(userID primitive.ObjectID, group string, sessionKey stri
 		"user_id":    userID.Hex(),
 		"user_group": group,
 		"session":    sessionKey,
-		"iat":        time.Now().Add(time.Hour),
+		"exp":        time.Now().Add(time.Hour),
 	})
 }
 
