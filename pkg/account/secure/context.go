@@ -7,12 +7,14 @@ import (
 )
 
 var (
-	userIDCtxKey      = &ctxKey{}
-	userGroupCtxKey   = &ctxKey{}
-	userSessionCtxKey = &ctxKey{}
+	userIDCtxKey      = &ctxKeyUID{}
+	userGroupCtxKey   = &ctxKeyGID{}
+	userSessionCtxKey = &ctxKeySID{}
 )
 
-type ctxKey struct{}
+type ctxKeyUID struct{}
+type ctxKeyGID struct{}
+type ctxKeySID struct{}
 
 // Обновление контекста для запроса
 func buildusercontext(ctx context.Context, userID primitive.ObjectID, userGroup string, userSession string) context.Context {
