@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/ReanSn0w/gobase/pkg/utils"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -149,6 +150,16 @@ func removeTokenCookie(w http.ResponseWriter) {
 // прозиводится запись сначений в контекст и запрос отправляется дальше
 // на обработку
 func checktoken(ctx context.Context, tokenString string) (context.Context, error) {
+	// токен не может быть пустым
+	if tokenString == "" {
+		return ctx, ErrUnvalidToken
+	}
+
+	// токен всегда состоит из 3 сегментов разделенных точками
+	if len(strings.Split(tokenString, ".")) != 3 {
+		return ctx, ErrUnvalidToken
+	}
+
 	claims, err := utils.JWT().Parse(tokenString)
 	if err != nil {
 		return ctx, ErrUnvalidToken
