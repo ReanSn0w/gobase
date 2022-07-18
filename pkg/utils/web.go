@@ -5,8 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ReanSn0w/gew/pkg/view"
-	"github.com/ReanSn0w/goml/pkg/dom"
+	"github.com/go-chi/chi"
 )
 
 //Тип данных для возврата ошибки пользователю
@@ -33,8 +32,7 @@ func Response(w http.ResponseWriter, code int, obj interface{}) {
 	}
 }
 
-// Функция для ответа пользователю страницей шаблонизированной с помощью gew
-func ResponsePage(w http.ResponseWriter, page view.View) {
-	builder := dom.NewBuilder()
-	builder.Write(w, page)
+// Мотнирует хранилище для статических файлов
+func MountAssetsDirectory(r chi.Router) {
+	r.Mount("/assets/", http.FileServer(http.Dir(".")))
 }

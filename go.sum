@@ -1,8 +1,4 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/ReanSn0w/gew v1.1.0 h1:PXWl+g0qw2+/2GYLK8/0PPha2P4dUljH2U18pas9OKg=
-github.com/ReanSn0w/gew v1.1.0/go.mod h1:dCMpxsqSdDnbZhUeJkIJEscdlND8FAnbmOSPAoV2x3o=
-github.com/ReanSn0w/goml v0.1.0 h1:NoWwKeVOBiZuyEZFe5rm6Vqyh9az8M5tNB7SYsLMr70=
-github.com/ReanSn0w/goml v0.1.0/go.mod h1:SsvLNttzfkg7oNnFwh2WQ8lw/+Qz2sB4qZCIDhGVEww=
 github.com/ReanSn0w/mongo-monkey v0.2.0 h1:EYEz9dJWbSPj83ZRH/ueF13EDfmL/YSPTGiK9C0pQSU=
 github.com/ReanSn0w/mongo-monkey v0.2.0/go.mod h1:DS/zOIvTD7iGddt5zxCf8Ld+aa7FbDMwl6shTom5rLM=
 github.com/aws/aws-sdk-go v1.29.15/go.mod h1:1KvfttTE3SPKMpo8g2c6jL3ZKfXtFvKscTgahTma5Xg=

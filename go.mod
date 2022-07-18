@@ -3,9 +3,8 @@ module github.com/ReanSn0w/gobase
 go 1.18
 
 require (
-	github.com/ReanSn0w/gew v1.1.0
-	github.com/ReanSn0w/goml v0.1.0
 	github.com/ReanSn0w/mongo-monkey v0.2.0
+	github.com/go-chi/chi v1.5.1
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	go.mongodb.org/mongo-driver v1.9.1
